@@ -17,11 +17,23 @@ const options = {
   },
 };
 
-export const getPlacesData = async () => {
+export const getPlacesData = async (sw, ne) => {
   try {
     const {
       data: { data },
-    } = await axios.get(URL, options);
+    } = await axios.get(URL, {
+      url: "https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary",
+      params: {
+        bl_latitude: sw.lat,
+        tr_latitude: ne.lat,
+        bl_longitude: sw.lng,
+        tr_longitude: ne.lng,
+      },
+      headers: {
+        "x-rapidapi-host": "travel-advisor.p.rapidapi.com",
+        "x-rapidapi-key": "e0e51321b6msh7a5a97b876992a5p1ea9e6jsna16699620246",
+      },
+    });
     return data;
   } catch (error) {
     console.log(error);
